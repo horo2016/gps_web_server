@@ -116,7 +116,7 @@
 		 <button id="savepoint" onclick="savepoint()">保存</button>
 		  <button id="savepoint" onclick="clearpoint()">清除</button>
 		  <button id="btnDri" onclick="coordinateSend()">下发启动</button>
-		 
+		 	  <button id="btnstop" onclick="carstop()">停止导航</button>
 		  </br>
 		  手动控制 </br>
 		 <button id="btndisconnect" onclick="runforward()">前进</button>
@@ -750,6 +750,27 @@
 				   
 			}
 
+	}
+	
+	
+		function carstop()
+	{
+		         
+				 if(!connetflg)alert("请先连接智能车！");
+			     console.log("into send message");
+			    
+			    sendtopic =  '/download/uniform';
+				    //可以如下修改firstName属性的值
+            	messagebody = ''+'stop'+',' +'\r\n';
+			
+                if(messagebody){
+                   
+                    message = new Paho.MQTT.Message(messagebody);
+                    message.destinationName = sendtopic;
+                    client.send(message);
+                       
+                }
+	
 	}
 	function coordinateSend() {
 	             
