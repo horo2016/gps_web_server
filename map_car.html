@@ -447,7 +447,7 @@
 				    lonti = temp1.lati;
 					lati = temp1.lonti;
 					//map.centerAndZoom(new BMap.Point(lonti,lati),15);
-					addMarkerlat(lonti,lati);
+					if(connetflg == 1)addMarkerlat(lonti,lati);
 					var loc_gps =  lonti.toString()+','+lati.toString();
 					// $('#start').val(loc_gps);
 					 $('#lnglati').val(loc_gps);
@@ -461,13 +461,15 @@
                // temperature = temp1.temperature;  // 直接使用格式化的JSon数据
                // humidity = temp1.humidity;
 			};
-			function connectserver() {
+	function connectserver() {
 			 MQTTconnect();
-			 }
-			 	function disconnectserver() {
-			 window.clearInterval(window.tester);
-			 MQTTconnect();
-			 }
+			}
+	function disconnectserver() {
+	    connetflg =0;
+		window.clearInterval(window.tester);
+		client.disconnect();
+	// MQTTconnect();
+	 }
 			// setInterval( " MQTTconnect()", 10000);
   //计算字符串的长度
 		function strlen(str){
