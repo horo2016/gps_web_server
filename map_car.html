@@ -98,6 +98,9 @@
 		当前速度:<input id="speed" type="text" value="30cm/s"/>    <!--value="116.715375, 39.515095"-->
         航点距离:<input id="distance" type="text" value="6m"/>       <!--value="115.402794, 27.738408"-->
         </br>
+		GPS速度:<input id="gpsvelocity" type="text" value=""/>    <!--value="116.715375, 39.515095"-->
+        真北方向:<input id="gpsheading" type="text" value=" "/>       <!--value="115.402794, 27.738408"-->
+        </br>
 		线加速度:<input id="velacc" type="text" value="30cm/s"/>    <!--value="116.715375, 39.515095"-->
         转弯速度:<input id="angal" type="text" value="6d/s"/>       <!--value="115.402794, 27.738408"-->
         </br>
@@ -451,8 +454,8 @@
 					var loc_gps =  lonti.toString()+','+lati.toString();
 					// $('#start').val(loc_gps);
 					 $('#lnglati').val(loc_gps);
-					 
-					  
+					 $('#gpsheading').val(temp1.gpsheading);
+					  $('#gpsvelocity').val(temp1.gpsvelocity);
 					 isvalid =1;
 				
 				}
