@@ -90,28 +90,28 @@
 		 Next坐标:<input type='text' id='nextwaypoint' disabled />
 		 </br>	
          当前航向:<input type='text' id='heading' disabled />
-         目标航向:<input type='text' id='targetheading' disabled />			 
+         目标航向:<input type='text' id='targetheading' disabled />	 
 		 </br>
-        waypnt1:<input id="waypoint1" type="text" value="116.238928,39.738408"/>    <!--value="116.715375, 39.515095"-->
-        waypnt2:<input id="waypoint2" type="text" value="116,39.738408"/>       <!--value="115.402794, 27.738408"-->
+        waypnt1:<input id="waypoint1" type="text" value=""/>    <!--value="116.715375, 39.515095"-->
+        waypnt2:<input id="waypoint2" type="text" value=""/>       <!--value="115.402794, 27.738408"-->
         </br>
-		当前速度:<input id="speed" type="text" value="0"/>    <!--value="116.715375, 39.515095"-->
-        航点距离:<input id="distance" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
+		当前速度:<input id="speed" type="text" value="0" disabled />    <!--value="116.715375, 39.515095"-->
+        航点距离:<input id="distance" type="text" value="0" disabled />       <!--value="115.402794, 27.738408"-->
         </br>
-		GPS速度:<input id="gpsvelocity" type="text" value=""/>    <!--value="116.715375, 39.515095"-->
-        真北方向:<input id="gpsheading" type="text" value=" "/>       <!--value="115.402794, 27.738408"-->
+		GPS速度:<input id="gpsvelocity" type="text" value=""disabled />    <!--value="116.715375, 39.515095"-->
+        真北方向:<input id="gpsheading" type="text" value=" " disabled />       <!--value="115.402794, 27.738408"-->
         </br>
-		线加速度:<input id="velacc" type="text" value="0"/>    <!--value="116.715375, 39.515095"-->
-        转弯速度:<input id="angspeed" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
+		线加速度:<input id="velacc" type="text" value="0"disabled />    <!--value="116.715375, 39.515095"-->
+        转弯速度:<input id="angspeed" type="text" value="0"disabled />       <!--value="115.402794, 27.738408"-->
         </br>
-		避障设距:<input id="setdis" type="text" value="50cm"/>    <!--value="116.715375, 39.515095"-->
-        避障测距:<input id="decdis" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
+		避障设距:<input id="setdis" type="text" value="50cm"disabled />    <!--value="116.715375, 39.515095"-->
+        避障测距:<input id="decdis" type="text" value="0"disabled />       <!--value="115.402794, 27.738408"-->
         </br>
-		电池电压:<input id="vol" type="text" value="12v"/>    <!--value="116.715375, 39.515095"-->
-        wifi强度:<input id="wifistrength" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
+		电池电压:<input id="vol" type="text" value="12v" disabled />    <!--value="116.715375, 39.515095"-->
+        wifi强度:<input id="wifistrength" type="text" value="0" disabled />       <!--value="115.402794, 27.738408"-->
         </br>
-		cpu温度:<input id="cputem" type="text" value="0"/>
-		cpu负载:<input id="cpuload" type="text" value="0"/>
+		cpu温度:<input id="cputem" type="text" value="0"disabled />
+		cpu负载:<input id="cpuload" type="text" value="0"disabled />
 		</br>
    		
 		 <button id="btnconnect" onclick="connectserver()">连接智能车</button>
@@ -257,7 +257,7 @@
 					console.log("解析出来的：humidity："+temp1.roll);
 					console.log("解析出来的：temperature："+temp1.pitch);
 				
-					  $('#heading').val(temp1.heading);
+					$('#heading').val(temp1.heading);
 					   
 					headingI =temp1.heading;
 				    roll = temp1.roll;
@@ -268,12 +268,17 @@
 					velspeed = speedI =temp1.velspeed/10;
 					angspeed = temp1.angspeed;
 					
+					targetheading =temp1.targetheading;
+					distance = temp1.distance;
+					
 					$('#heading').val(headingI);
 					$('#wifistrength').val(wifisignal);
 					$('#cputem').val(cputemp);
 					$('#cpuload').val(cpuload);
 					$('#speed').val(speedI);
 					$('#angspeed').val(angspeed);
+					$('#targetheading').val(targetheading);
+					$('#distance').val(distance);
 				}
 				    interval = setInterval(function () {
                     heading.update(headingI);//0~360 00
