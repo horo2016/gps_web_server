@@ -99,7 +99,7 @@
         航点距离:<input id="distance" type="text" value="0" disabled />       <!--value="115.402794, 27.738408"-->
         </br>
 		GPS速度:<input id="gpsvelocity" type="text" value=""disabled />    <!--value="116.715375, 39.515095"-->
-        真北方向:<input id="gpsheading" type="text" value=" " disabled />       <!--value="115.402794, 27.738408"-->
+        GPS方向:<input id="gpsheading" type="text" value=" " disabled />       <!--value="115.402794, 27.738408"-->
         </br>
 		线加速度:<input id="velacc" type="text" value="0"disabled />    <!--value="116.715375, 39.515095"-->
         转弯速度:<input id="angspeed" type="text" value="0"disabled />       <!--value="115.402794, 27.738408"-->
@@ -270,7 +270,8 @@
 					
 					targetheading =temp1.targetheading;
 					distance = temp1.distance;
-					
+					nextwaypoint_lon = temp1.nextwaypoint_lon;
+					nextwaypoint_lat = temp1.nextwaypoint_lat;
 					$('#heading').val(headingI);
 					$('#wifistrength').val(wifisignal);
 					$('#cputem').val(cputemp);
@@ -279,6 +280,10 @@
 					$('#angspeed').val(angspeed);
 					$('#targetheading').val(targetheading);
 					$('#distance').val(distance);
+					
+					
+					var loc_gps =  nextwaypoint_lon.toString()+','+nextwaypoint_lat.toString();
+					$('#nextwaypoint').val(loc_gps);
 				}
 				    interval = setInterval(function () {
                     heading.update(headingI);//0~360 00
@@ -458,7 +463,13 @@
 				    lonti = temp1.lonti ;
 					lati = temp1.lati;
 					//map.centerAndZoom(new BMap.Point(lonti,lati),15);
-					if(connetflg == 1)addMarkerlat(lonti,lati);
+					if(connetflg == 1){
+					   
+					    alngt = document.getElementById("nextwaypoint_lon").value.split(",")[0];
+                        alatt = document.getElementById("nextwaypoint_lat").value.split(",")[1];
+						addMarkerlatdestination(alngt,alatt);
+					   addMarkerlat(lonti,lati);
+					}
 					var loc_gps =  lonti.toString()+','+lati.toString();
 					// $('#start').val(loc_gps);
 					 $('#lnglati').val(loc_gps);
@@ -598,6 +609,19 @@
 				map.addOverlay(marker); 
 			
 		} 
+			function addMarkerlatdestination(lng,lat){
+		
+		   var myIcon = new BMap.Icon("http://api.map.baidu.com/lbsapi/createmap/images/icon.png", new BMap.Size(5, 5), {
+				offset: new BMap.Size(5, 5) 
+			});
+			
+			// 创建标注对象并添加到地图   
+		
+				var point = new BMap.Point(lng,lat);
+				var marker = new BMap.Marker(point, {icon: myIcon});
+				map.addOverlay(marker); 
+			
+		}
 		//添加线
 		function addLine(points){
 			var linePoints = [],pointsLen = points.length,i,polyline;
