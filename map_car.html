@@ -95,14 +95,14 @@
         waypnt1:<input id="waypoint1" type="text" value="116.238928,39.738408"/>    <!--value="116.715375, 39.515095"-->
         waypnt2:<input id="waypoint2" type="text" value="116,39.738408"/>       <!--value="115.402794, 27.738408"-->
         </br>
-		当前速度:<input id="speed" type="text" value="30cm/s"/>    <!--value="116.715375, 39.515095"-->
-        航点距离:<input id="distance" type="text" value="6m"/>       <!--value="115.402794, 27.738408"-->
+		当前速度:<input id="speed" type="text" value="0"/>    <!--value="116.715375, 39.515095"-->
+        航点距离:<input id="distance" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
         </br>
 		GPS速度:<input id="gpsvelocity" type="text" value=""/>    <!--value="116.715375, 39.515095"-->
         真北方向:<input id="gpsheading" type="text" value=" "/>       <!--value="115.402794, 27.738408"-->
         </br>
-		线加速度:<input id="velacc" type="text" value="30cm/s"/>    <!--value="116.715375, 39.515095"-->
-        转弯速度:<input id="angal" type="text" value="6d/s"/>       <!--value="115.402794, 27.738408"-->
+		线加速度:<input id="velacc" type="text" value="0"/>    <!--value="116.715375, 39.515095"-->
+        转弯速度:<input id="angspeed" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
         </br>
 		避障设距:<input id="setdis" type="text" value="50cm"/>    <!--value="116.715375, 39.515095"-->
         避障测距:<input id="decdis" type="text" value="0"/>       <!--value="115.402794, 27.738408"-->
@@ -119,9 +119,8 @@
 		 <button id="savepoint" onclick="savepoint()">保存</button>
 		  <button id="savepoint" onclick="clearpoint()">清除</button>
 		  <button id="btnDri" onclick="coordinateSend()">下发启动</button>
-		 	  <button id="btnstop" onclick="carstop()">停止导航</button>
-		  </br>
-		  手动控制 </br>
+		  <button id="btnstop" onclick="carstop()">停止导航</button>
+		
 		 <button id="btndisconnect" onclick="runforward()">前进</button>
 		 <input id="rundis" type="text" value="10"/>cm
 		 <button id="savepoint" onclick="turnround()">转弯</button>
@@ -205,8 +204,9 @@
     });
      var	headingI =document.getElementById("heading").value ;
 	 var  cpu_collectiveI = 1,tempcollectiveI2 = 0.80;//从下到上 1-0.0  
-	 var  speedI = 20,roll =0,pitch =0;
+	 var  speedI = 0,roll =0,pitch =0;
      var  cpuload = 0,cputemp =0,wifisignal =0;
+	 var  velspeed = 0,angspeed =0;
 		//heading.update(headingI); 
 
 		   var  port = 8083,
@@ -265,12 +265,15 @@
 					cpuload =temp1.cpuload;
 				    cputemp = temp1.cputemp;
 					wifisignal =temp1.wifisignal;
-					
+					velspeed = speedI =temp1.velspeed/10;
+					angspeed = temp1.angspeed;
 					
 					$('#heading').val(headingI);
 					$('#wifistrength').val(wifisignal);
 					$('#cputem').val(cputemp);
 					$('#cpuload').val(cpuload);
+					$('#speed').val(speedI);
+					$('#angspeed').val(angspeed);
 				}
 				    interval = setInterval(function () {
                     heading.update(headingI);//0~360 00
@@ -374,6 +377,7 @@
             ssl = false,
 			topic =  '/state/gps';
 			var isvalid =0;
+			var contgps =0;
 			var urlPath = window.document.location.href;
 			 var docPath = window.document.location.pathname; //文件在服务器相对地址 /ISV/demo.aspx
             var index = urlPath.indexOf(docPath);
@@ -443,12 +447,11 @@
 				   var temp1 = jQuery.parseJSON(message.payloadString);
 				  
 				
-					//console.log("解析出来的：humidity："+temp1.type);
-					//console.log("解析出来的：temperature："+temp1.devid); 
-					console.log("解析出来的：lng："+temp1.lonti); 
-					console.log("解析出来的：lati："+temp1.lati);
-				    lonti = temp1.lati;
-					lati = temp1.lonti;
+					
+				//	console.log("解析出来的：lng："+temp1.lonti); 
+				//	console.log("解析出来的：lati："+temp1.lati);
+				    lonti = temp1.lonti ;
+					lati = temp1.lati;
 					//map.centerAndZoom(new BMap.Point(lonti,lati),15);
 					if(connetflg == 1)addMarkerlat(lonti,lati);
 					var loc_gps =  lonti.toString()+','+lati.toString();
@@ -787,7 +790,7 @@
                 cmd =2;//跑起来 run
 				node =2;
 				
-				messagebody = ''+'start'+',' +'\r\n';
+				messagebody = ''+"start"+','+ node +'\r\n';
 			
                 if(messagebody){
                    
