@@ -8,6 +8,12 @@ gps web server
 
 浏览器输入ip树莓派的ip地址即可。
 
+配合 MQTT_WAYPOINT 获取航航点信息
+https://github.com/horo2016/openCRobotics/tree/master/mqtt_waypointsave
+
+配合 gnavi 获取gps imu定位
+https://github.com/horo2016/naviGpsPad_remote
+
 
 
 
