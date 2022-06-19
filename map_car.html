@@ -631,6 +631,8 @@ var heading,speed,horizon,pedal;
 			}
 		}
 			//在轨迹点上创建图标，并添加点击事件，显示轨迹点信息。points,数组。
+			var last_lng,last_lat,last_heading,last_marker;
+			 var first_init =0;
 		function addMarkerlat(lng,lat,heading){
 		
 		    var iconip = "car.png";
@@ -639,10 +641,27 @@ var heading,speed,horizon,pedal;
 				offset: new BMap.Size(0,3) 
 			});
 			// 创建标注对象并添加到地图   
-		
-				var point = new BMap.Point(lng,lat);
-				var marker = new BMap.Marker(point, {icon: myIcon,rotation:heading});
-				map.addOverlay(marker); 
+		    if(first_init ==0){
+			  first_init =1;
+			 }
+			else  if(first_init ==1){
+			  
+			   console.log("remove ");
+			   last_marker.remove();
+			   map.removeOverlay(last_marker); 
+			   addLine2point2(last_lat,last_lng,lat,lng);
+			 }
+			 
+			 last_lng = lng;
+			 last_lat = lat;
+			 last_heading = heading;
+			 
+			var point = new BMap.Point(lng,lat);
+			var marker = new BMap.Marker(point, {icon: myIcon,rotation:heading});
+			last_marker = marker;
+			
+			
+			map.addOverlay(marker); 
 			
 		} 
 		//添加线
@@ -658,6 +677,7 @@ var heading,speed,horizon,pedal;
 			polyline = new BMap.Polyline(linePoints, {strokeColor:"red", strokeWeight:2, strokeOpacity:0.5});   //创建折线
 			map.addOverlay(polyline);   //增加折线
 		}
+		//添加两点线
 		function addLine2point2(lat_pre,longt_pre,lat,longt){
 		    var pointa = {"lng":longt_pre,"lat":lat_pre}
 			var pointb = {"lng":longt,"lat":lat}
