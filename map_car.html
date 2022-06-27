@@ -108,7 +108,7 @@
 	     <button style="background-color: #00C0CB;" id="confirm" onclick="confirm()">确定</button>
 		 </br>
 		 <font color="#FF0000">当前坐标:</font> <input style="color:white;" type='text' id='lnglati' disabled />
-		 <font color="#FFffff">next坐标:</font><input type='text' id='nextwaypoint' disabled />
+		 <font color="#FFffff">next坐标:</font> <input type='text' id='nextwaypoint' disabled />
 		 </br>	
          <font color="#FFffff">当前航向:</font> <input type='text' id='heading' disabled />
           <font color="#FFffff">目标航向:</font><input type='text' id='targetheading' disabled />			 
@@ -219,55 +219,6 @@ var heading,speed,horizon,pedal;
 	  
 	});
             
-			function onMessageArrived(message) {
-			//console.log("收到消息:"+message.payloadString);
-            //    console.log("主题："+message.destinationName);
-			//	console.log("长度："+strlen(message.payloadString));
-				if(strlen(message.payloadString)>30)
-				{
-				//  heading.update(headingI);//0~360 00
-				   var temp1 = jQuery.parseJSON(message.payloadString);
-				  
-				
-					 
-					//console.log("heading"+temp1.heading); 
-					console.log("解析出来的：humidity："+temp1.roll);
-					console.log("解析出来的：temperature："+temp1.pitch);
-				
-					$('#heading').val(temp1.heading);
-					   
-					headingI =temp1.heading;
-				    roll = temp1.roll;
-					pitch =temp1.pitch;
-					cpuload =temp1.cpuload;
-				    cputemp = temp1.cputemp;
-					wifisignal =temp1.wifisignal;
-					velspeed = speedI =temp1.velspeed/10;
-					angspeed = temp1.angspeed;
-					
-					$('#heading').val(headingI);
-					$('#wifistrength').val(wifisignal);
-					$('#cputem').val(cputemp);
-					$('#cpuload').val(cpuload);
-					$('#speed').val(speedI);
-					$('#angspeed').val(angspeed);
-				}
-				    interval = setInterval(function () {
-                    heading.update(headingI);//0~360 00
-					cpu_collectiveI = 1.05-cpuload/100;
-					tempcollectiveI2 = 1-cputemp/100;
-                    pedal.update(cpu_collectiveI, tempcollectiveI2);
-                  
-                    speed.update(speedI );
-                    horizon.update(pitch,roll);
-                    
-                    
-                   
-              
-                }, 500);
-				 
-			
-			};
 			
 			// MQTTconnect();
 			 
@@ -442,6 +393,7 @@ var heading,speed,horizon,pedal;
 					pitch =temp1.pitch;
 					cpuload =temp1.cpuload;
 				    cputemp = temp1.cputemp;
+					fusionheading = temp1.fusionheading;
 					//wifisignal =temp1.wifisignal;
 					//velspeed = speedI =temp1.velspeed/10;
 					//angspeed = temp1.angspeed;
@@ -452,8 +404,14 @@ var heading,speed,horizon,pedal;
 					$('#cpuload').val(cpuload);
 					$('#gpsvelocity').val(gpsvelocity);
 					$('#angspeed').val(angspeed);
-					//map.centerAndZoom(new BMap.Point(lonti,lati),15);
-					if(connetflg == 1)addMarkerlat(lonti,lati,gpsheading);
+					$('#heading').val(fusionheading);
+					
+					if(connetflg == 1)
+					{
+					   //addMarkerlat(lonti,lati,gpsheading);
+					   addMarkerlat(lonti,lati,fusionheading);
+					}
+					
 					var loc_gps =  lonti.toString()+','+lati.toString();
 					 
 					 $('#lnglati').val(loc_gps);
